@@ -43,10 +43,17 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 // 在本次请求中持有用户。后面很多的地方会用到这个user，因此需要暂存此user：ThreadLocal
                 // 请求没有处理完，那么线程就一直还在，请求处理完，服务器做出了响应之后，线程销毁
                 hostHolder.setUser(user);
-                // 构建用户认证的结果，并存入SecurityContext，以便于Security进行授权
+
+                /**
+                构建用户认证的结果，并存入SecurityContext，以便于Security进行授权
+                但是这里代码有问题，认证需要在授权之前，下面的认证逻辑应该是写在Filter中的，而不是拦截器中，若是认证的逻辑写在了
+                拦截器中，那么认证就在授权之后了（授权是security自动在filter中帮我们做的，我们只是进行配置）
+
                 Authentication authentication = new UsernamePasswordAuthenticationToken(
                         user, user.getPassword(), userService.getAuthorities(user.getId())) ;
                 SecurityContextHolder.setContext(new SecurityContextImpl(authentication));
+
+                 */
             }
         }
 
