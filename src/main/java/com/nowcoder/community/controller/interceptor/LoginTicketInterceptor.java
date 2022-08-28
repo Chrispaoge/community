@@ -64,10 +64,10 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     }
 
     //视图渲染之后
-    //整个请求结束的时候，清除hostHolder中存储的user
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         hostHolder.clear();
+        SecurityContextHolder.clearContext();
     }
 }
 
